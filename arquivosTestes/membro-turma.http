@@ -1,0 +1,28 @@
+###
+GET http://localhost:3000/membroTurmas/
+
+###
+GET http://localhost:3000/membroTurmas/
+
+###
+POST  http://localhost:3000/membroTurmas
+Content-Type: application/json
+
+{
+    "turmaId": ,
+    "membroId": ,
+    "status":"" ,
+        }
+###
+PATCH   http://localhost:3000/membroTurmas/4
+Content-Type: application/json
+
+{
+    "turmaId": ,
+    "membroId": ,
+    "status":"" ,
+        }
+###
+DELETE  http://localhost:3000/membroTurmas/2
+
+###
