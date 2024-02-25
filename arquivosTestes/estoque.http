@@ -1,0 +1,32 @@
+###
+GET http://localhost:3000/estoques
+
+###
+GET http://localhost:3000/estoques/4
+
+###
+POST  http://localhost:3000/estoques
+Content-Type: application/json
+
+{
+    "produto": "manteiga",
+    "quantidade": 10,
+    "setorId": 1,
+    "tipoEventoId": 10,
+    "comunidadeId": 1
+}
+###
+PATCH   http://localhost:3000/estoques/4
+Content-Type: application/json
+
+{
+    "produto": "manteiga",
+    "quantidade": 10,
+    "setorId": 1,
+    "tipoEventoId": 10,
+    "comunidadeId": 1
+    }
+###
+DELETE  http://localhost:3000/estoques/3
+
+###

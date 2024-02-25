@@ -1,0 +1,24 @@
+###
+GET http://localhost:3000/tipo-sacramentos
+
+###
+GET http://localhost:3000/tipo-sacramentos/1
+
+###
+POST  http://localhost:3000/tipo-sacramentos
+Content-Type: application/json
+
+{
+    "tipoSacramento": "missa"
+}
+###
+PATCH   http://localhost:3000/tipo-sacramentos/2
+Content-Type: application/json
+
+{
+    "tipoSacramento": "evento comunidade"
+}
+###
+DELETE  http://localhost:3000/tipo-sacramentos/1
+
+###

@@ -1,0 +1,32 @@
+
+
+    ###
+GET http://localhost:3000/sacramentos
+
+###
+GET http://localhost:3000/sacramentos/2
+
+###
+POST  http://localhost:3000/sacramentos
+Content-Type: application/json
+
+{
+    "localSacramento": "missa",
+    "dataHoraSacramento": "2021-05-10",
+    "pessoaId": 1,
+    "tipoSacramentoId": 1
+    }
+###
+PATCH   http://localhost:3000/sacramentos/1
+Content-Type: application/json
+
+{
+    "localSacramento": "missa",
+    "dataHoraSacramento": "2021-10-10",
+    "pessoaId": 2,
+    "tipoSacramentoId": 1
+    }
+###
+DELETE  http://localhost:3000/sacramentos/1
+
+###

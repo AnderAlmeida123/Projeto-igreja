@@ -1,0 +1,34 @@
+###
+GET http://localhost:3000/tesourarias
+
+###
+GET http://localhost:3000/tesourarias/4
+
+###
+POST  http://localhost:3000/tesourarias
+Content-Type: application/json
+
+{
+    "tipoMovimentacao": "dinheiro",
+    "descricao": "reza",
+    "valor": 10,
+    "dataMovimentacao":"2022-02-01",
+    "comunidadeId": 1,
+    "responsavelId": 10
+}
+###
+PATCH   http://localhost:3000/tesourarias/4
+Content-Type: application/json
+
+{
+   "tipoMovimentacao": "dinheiro",
+    "descricao": "reza",
+    "valor": "10",
+    "dataMovimentacao":"2022-02-01",
+    "comunidadeId": 1,
+    "responsavelId": 10
+    }
+###
+DELETE  http://localhost:3000/tesourarias/3
+
+###

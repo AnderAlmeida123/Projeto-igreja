@@ -1,0 +1,184 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model pessoa {
+    id             Int           @id @unique @default(autoincrement())
+    nome           String        @db.VarChar(255)
+    cpf            String        @unique @db.Char(11)
+    dataNascimento DateTime      @db.Date()
+    sexo           String
+    endereco       endereco[]
+    contato        contato[]
+    sacramento     sacramento[]  @relation("Participantes")
+    membroTurma    membroTurma[]
+    membroSetor    membroSetor[]
+
+    responsavelSetor      setor[]      @relation("responsavelSetor")
+    responsavelEstoque    estoque[]    @relation("responsavelEstoque")
+    comunidadeResponsavel comunidade[] @relation("ResponsavelComunidade")
+    dizimo                dizimo[]     @relation("integranteDizimo")
+    professor             turma[]      @relation("professor")
+    responsavelTesouraria tesouraria[] @relation("responsavelTesouraria")
+    responsavelDizimo     dizimo[]     @relation("responsavelDizimo")
+
+    comunidade   comunidade? @relation("MembroComunidade", fields: [comunidadeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    comunidadeId Int?
+}
+
+model contato {
+    id         Int    @id @unique @default(autoincrement())
+    celular    String @db.Char(11)
+    telContato String @db.Char(11)
+    email      String @db.VarChar(100)
+    pessoa     pessoa @relation(fields: [pessoaId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    pessoaId   Int
+}
+
+model endereco {
+    id         Int     @id @unique @default(autoincrement())
+    cep        String  @db.Char(9)
+    estado     String  @db.VarChar(255)
+    cidade     String  @db.VarChar(255)
+    bairro     String  @db.VarChar(255)
+    rua        String  @db.VarChar(255)
+    numero     String  @db.Char(5)
+    referencia String?
+    pessoa     pessoa  @relation(fields: [pessoaId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    pessoaId   Int
+}
+
+model sacramento {
+    id                 Int            @id @unique @default(autoincrement())
+    localSacramento    String         @db.Text
+    dataHoraSacramento DateTime       @db.Timestamp()
+    pessoa             pessoa         @relation("Participantes", fields: [pessoaId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    pessoaId           Int
+    tipoSacramento     tipoSacramento @relation("TipoSacramento", fields: [tipoSacramentoId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    tipoSacramentoId   Int
+}
+
+model tipoSacramento {
+    id             Int          @id @unique @default(autoincrement())
+    tipoSacramento String       @db.VarChar(255)
+    sacramento     sacramento[] @relation("TipoSacramento")
+}
+
+model comunidade {
+    id             Int          @id @unique @default(autoincrement())
+    nomeComunidade String       @db.VarChar(100)
+    bairro         String       @db.VarChar(100)
+    membros        pessoa[]     @relation("MembroComunidade")
+    responsavel    pessoa?      @relation("ResponsavelComunidade", fields: [responsavelId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    responsavelId  Int?
+    calendarios    calendario[]
+    setor          setor[]
+    tesouraria     tesouraria[]
+    estoque        estoque[]
+}
+
+model calendario {
+    id           Int        @id @unique @default(autoincrement())
+    dataHora     DateTime   @db.Timestamp()
+    tituloEvento String     @db.VarChar(255)
+    descricao    String     @db.Text
+    comunidade   comunidade @relation(fields: [comunidadeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    comunidadeId Int
+    tipoDoEvento tipoEvento @relation(fields: [tipoEventoId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    tipoEventoId Int
+}
+
+model tipoEvento {
+    id         Int          @id @unique @default(autoincrement())
+    tipoEvento String       @db.VarChar(255)
+    calendario calendario[]
+}
+
+model setor {
+    id            Int           @id @unique @default(autoincrement())
+    descricao     String        @db.Text
+    setor         String        @unique @db.VarChar(255)
+    responsavel   pessoa?       @relation("responsavelSetor", fields: [responsavelId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    responsavelId Int?
+    comunidade    comunidade    @relation(fields: [comunidadeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    comunidadeId  Int
+    membroSetor   membroSetor[] @relation("nomeSetor")
+    turma         turma[]
+    estoque       estoque[]     @relation("setorProduto")
+}
+
+model membroSetor {
+    dataEntrada   DateTime  @db.Date()
+    dataSaida     DateTime? @db.Date()
+    setor         setor     @relation("nomeSetor", fields: [setorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    setorId       Int
+    membro        pessoa    @relation(fields: [membroSetorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    membroSetorId Int
+
+    @@id([setorId, membroSetorId])
+}
+
+model turma {
+    id          Int           @id @unique @default(autoincrement())
+    dataInicio  DateTime      @db.Date()
+    dataTermino DateTime      @db.Date()
+    turma       String        @unique @db.VarChar(255)
+    professor   pessoa?       @relation("professor", fields: [professorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    professorId Int?
+    setor       setor         @relation(fields: [setorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    setorId     Int
+    membroTurma membroTurma[]
+}
+
+model membroTurma {
+    turma    turma  @relation(fields: [turmaId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    turmaId  Int
+    membro   pessoa @relation(fields: [membroId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    membroId Int
+    status   String
+
+    @@id([turmaId, membroId])
+}
+
+model tesouraria {
+    id               Int        @id @unique @default(autoincrement())
+    tipoMovimentacao String     @db.Text
+    descricao        String     @db.Text
+    valor            Decimal    @db.Money
+    dataMovimentacao DateTime   @db.Date()
+    comunidade       comunidade @relation(fields: [comunidadeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    comunidadeId     Int
+    responsavel      pessoa?    @relation("responsavelTesouraria", fields: [responsavelId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+    responsavelId    Int?
+}
+
+model dizimo {
+    id            Int     @id @unique @default(autoincrement())
+    meses         String  @db.VarChar(255)
+    valor         Decimal @db.Money
+    tipoPagamento String  @db.VarChar(255)
+    pessoa        pessoa? @relation("integranteDizimo", fields: [pessoaId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    pessoaId      Int?
+    responsavel   pessoa? @relation("responsavelDizimo", fields: [responsavelId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+    responsavelId Int?
+}
+
+model estoque {
+    id            Int        @id @unique @default(autoincrement())
+    produto       String     @db.VarChar(255)
+    quantidade    Decimal    @db.Decimal
+    setor         setor?     @relation("setorProduto", fields: [setorId], references: [id], onDelete: SetNull, onUpdate: SetNull)
+    setorId       Int?
+    responsavel   pessoa?    @relation("responsavelEstoque", fields: [responsavelId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+    responsavelId Int?
+    comunidade    comunidade @relation(fields: [comunidadeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    comunidadeId  Int
+}

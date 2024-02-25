@@ -1,0 +1,34 @@
+###
+GET http://localhost:3000/turmas
+
+###
+GET http://localhost:3000/turmas/2
+
+###
+POST  http://localhost:3000/turmas
+Content-Type: application/json
+
+{
+    "dataInicio": "2000-03-02",
+    "dataTermino": "2000-08-02",
+    "turma": "colatina",
+    "professorId": 1 ,
+    "setorId": 1
+
+    }
+###
+PATCH   http://localhost:3000/turmas/4
+Content-Type: application/json
+
+{
+    "dataInicio": "2000-03-02",
+    "dataTermino": "2000-08-02",
+    "turma": "colatina",
+    "professorId": ,
+    "setorId":1 
+
+    }
+###
+DELETE  http://localhost:3000/turmas/2
+
+###

@@ -1,0 +1,30 @@
+###
+GET http://localhost:3000/membroSetors/setorId
+
+###
+GET http://localhost:3000/membroSetors/
+
+###
+POST  http://localhost:3000/membroSetors
+Content-Type: application/json
+
+{
+    "dataEntrada": "2020-02-01",
+    "dataSaida": "2020-02-05",
+    "setorId":1 ,
+    "membroSetorId":2 
+        }
+###
+PATCH   http://localhost:3000/membroSetors/4
+Content-Type: application/json
+
+{
+    "dataEntrada": "2020-02-01",
+    "dataSaida": "2020-02-05",
+    "setorId": ,
+    "membroSetorId": 
+    }
+###
+DELETE  http://localhost:3000/membroSetors/2
+
+###

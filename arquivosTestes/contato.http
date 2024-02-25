@@ -1,0 +1,30 @@
+###
+GET http://localhost:3000/contatos
+
+###
+GET http://localhost:3000/contatos/4
+
+###
+POST  http://localhost:3000/contatos
+Content-Type: application/json
+
+{
+    "celular": "223",
+    "telContato": " sao 123",
+    "email": "ander@123",
+    "pessoaId": 1
+}
+###
+PATCH   http://localhost:3000/contatos/1
+Content-Type: application/json
+
+{
+    "celular": "223",
+    "telContato": " sao 123",
+    "email": "ander@123",
+    "pessoaId": 1
+    }
+###
+DELETE  http://localhost:3000/contatos/8
+
+###

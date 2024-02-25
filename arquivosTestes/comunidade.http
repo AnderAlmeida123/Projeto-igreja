@@ -1,0 +1,28 @@
+###
+GET http://localhost:3000/comunidades
+
+###
+GET http://localhost:3000/comunidades/4
+
+###
+POST  http://localhost:3000/comunidades
+Content-Type: application/json
+
+{
+    "nomeComunidade": "223",
+    "bairro": " sao 123",
+    "responsavelId": 1
+}
+###
+PATCH   http://localhost:3000/comunidades/1
+Content-Type: application/json
+
+{
+    "nomeComunidade": "123",
+    "bairro": "123",
+    "responsavelId": 1
+    }
+###
+DELETE  http://localhost:3000/comunidades/8
+
+###

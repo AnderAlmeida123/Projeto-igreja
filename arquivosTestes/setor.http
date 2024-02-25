@@ -1,0 +1,32 @@
+
+
+    ###
+GET http://localhost:3000/setors
+
+###
+GET http://localhost:3000/setors/2
+
+###
+POST  http://localhost:3000/setors
+Content-Type: application/json
+
+{
+    "descricao": "missa",
+    "setor": "2021-05-10",
+    "responsavelId": 1,
+    "comunidadeId": 1
+    }
+###
+PATCH   http://localhost:3000/setors/3
+Content-Type: application/json
+
+{
+    "descricao": "missa",
+    "setor": "2021-05-10",
+    "responsavelId": 1,
+    "comunidadeId": 1
+    }
+###
+DELETE  http://localhost:3000/setors/1
+
+###

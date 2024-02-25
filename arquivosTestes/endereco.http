@@ -1,0 +1,39 @@
+###
+GET http://localhost:3000/enderecos
+
+###
+GET http://localhost:3000/enderecos/2
+
+###
+POST  http://localhost:3000/enderecos
+Content-Type: application/json
+
+{
+    "cep": "29706436",
+    "estado": "espirito santo",
+    "cidade": "colatina",
+    "bairro": "vista linda",
+    "rua": "breno schaffer do nascimento",
+    "numero": "130",
+    "referencia": "",
+    "pessoaId": 4
+
+    }
+###
+PATCH   http://localhost:3000/enderecos/4
+Content-Type: application/json
+
+{
+    "cep": "carlos",
+    "estado": "1234567887",
+    "cidade": "2020-02-05",
+    "bairro": "reza",
+    "rua": "1234567887",
+    "numero": "2020-02-05",
+    "referencia?": "reza",
+    "pessoaId": 4
+    }
+###
+DELETE  http://localhost:3000/enderecos/2
+
+###

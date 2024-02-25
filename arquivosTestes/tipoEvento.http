@@ -1,0 +1,24 @@
+###
+GET http://localhost:3000/tipo-eventos
+
+###
+GET http://localhost:3000/tipo-eventos/4
+
+###
+POST  http://localhost:3000/tipo-eventos
+Content-Type: application/json
+
+{
+    "tipoEvento": "reza"
+}
+###
+PATCH   http://localhost:3000/tipo-eventos/4
+Content-Type: application/json
+
+{
+    "tipoEvento": "evento comunidade"
+}
+###
+DELETE  http://localhost:3000/tipo-eventos/5
+
+###
