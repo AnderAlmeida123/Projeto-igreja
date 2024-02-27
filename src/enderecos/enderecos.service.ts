@@ -9,13 +9,15 @@ export class EnderecosService {
   constructor(private prismaService: PrismaService) {}
 
   async create(createEnderecoDto: CreateEnderecoDto) {
-    const pessoa = await this.prismaService.pessoa.findUnique({
-      where: {
-        id: createEnderecoDto.pessoaId,
-      },
-    });
-    if (!pessoa) {
-      throw new NotFoundError('People not found');
+    if (createEnderecoDto.pessoaId) {
+      const pessoa = await this.prismaService.pessoa.findUnique({
+        where: {
+          id: createEnderecoDto.pessoaId,
+        },
+      });
+      if (!pessoa) {
+        throw new NotFoundError('People not found');
+      }
     }
 
     const result = await this.prismaService.$transaction([

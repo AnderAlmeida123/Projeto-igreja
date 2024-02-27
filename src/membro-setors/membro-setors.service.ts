@@ -40,7 +40,7 @@ export class MembroSetorsService {
 
   async findOne(setorId: number, membroSetorId: number) {
     try {
-      const membroSetor = await this.prismaService.membroSetor.findFirst({
+      return await this.prismaService.membroSetor.findFirst({
         where: {
           AND: [
             {
@@ -69,7 +69,7 @@ export class MembroSetorsService {
     updateMembroSetorDto: UpdateMembroSetorDto,
   ) {
     try {
-      const membroSetor = await this.prismaService.membroSetor.updateMany({
+      return await this.prismaService.membroSetor.updateMany({
         where: {
           AND: [
             {
@@ -82,7 +82,6 @@ export class MembroSetorsService {
         },
         data: updateMembroSetorDto,
       });
-      return membroSetor;
     } catch (error) {
       console.error(error);
       if (error.code === 'P2025') {
@@ -96,7 +95,7 @@ export class MembroSetorsService {
 
   async remove(setorId: number, membroSetorId: number) {
     try {
-      const membroSetor = await this.prismaService.membroSetor.deleteMany({
+      return await this.prismaService.membroSetor.deleteMany({
         where: {
           AND: [
             {
@@ -108,7 +107,6 @@ export class MembroSetorsService {
           ],
         },
       });
-      return membroSetor;
     } catch (error) {
       console.error(error);
       if (error.code === 'P2025') {

@@ -26,7 +26,7 @@ export class MembroTurmasService {
 
   async findOne(turmaId: number, membroId: number) {
     try {
-      const findOne = await this.prismaService.membroTurma.findFirst({
+      return await this.prismaService.membroTurma.findFirst({
         where: {
           AND: [
             {
@@ -55,7 +55,7 @@ export class MembroTurmasService {
     updateMembroTurmaDto: UpdateMembroTurmaDto,
   ) {
     try {
-      const update = await this.prismaService.membroTurma.updateMany({
+      return await this.prismaService.membroTurma.updateMany({
         where: {
           AND: [
             {
@@ -81,7 +81,7 @@ export class MembroTurmasService {
 
   async remove(turmaId: number, membroId: number) {
     try {
-      const del = await this.prismaService.membroTurma.deleteMany({
+      return await this.prismaService.membroTurma.deleteMany({
         where: {
           AND: [
             {

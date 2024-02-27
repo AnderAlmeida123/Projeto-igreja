@@ -9,14 +9,16 @@ export class PessoasService {
   constructor(private prismaService: PrismaService) {}
 
   async create(createPessoaDto: CreatePessoaDto) {
-    const comunidade = await this.prismaService.comunidade.findUnique({
-      where: { id: createPessoaDto.comunidadeId },
-    });
-    if (!comunidade) {
-      throw new NotFoundError('Community not found');
+    if (createPessoaDto.comunidadeId) {
+      const comunidade = await this.prismaService.comunidade.findUnique({
+        where: { id: createPessoaDto.comunidadeId },
+      });
+      if (!comunidade) {
+        throw new NotFoundError('Community not found');
+      }
     }
 
-    const result = await this.prismaService.$transaction([
+    const create = await this.prismaService.$transaction([
       this.prismaService.pessoa.create({
         data: {
           nome: createPessoaDto.nome,
@@ -28,7 +30,7 @@ export class PessoasService {
       }),
     ]);
 
-    return result[0];
+    return create[0];
   }
   findAll() {
     return this.prismaService.pessoa.findMany();

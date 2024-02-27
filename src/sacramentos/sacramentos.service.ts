@@ -9,17 +9,24 @@ export class SacramentosService {
   constructor(private prismaService: PrismaService) {}
 
   async create(createSacramentoDto: CreateSacramentoDto) {
-    const pessoa = await this.prismaService.pessoa.findUnique({
-      where: { id: createSacramentoDto.pessoaId },
-    });
-    if (!pessoa) {
-      throw new NotFoundError('People not found');
+    if (createSacramentoDto.pessoaId) {
+      const pessoa = await this.prismaService.pessoa.findUnique({
+        where: { id: createSacramentoDto.pessoaId },
+      });
+      if (!pessoa) {
+        throw new NotFoundError('People not found');
+      }
     }
-    const tipoSacramento = await this.prismaService.tipoSacramento.findUnique({
-      where: { id: createSacramentoDto.tipoSacramentoId },
-    });
-    if (!tipoSacramento) {
-      throw new NotFoundError('Type sacrament not found');
+
+    if (createSacramentoDto.tipoSacramentoId) {
+      const tipoSacramento = await this.prismaService.tipoSacramento.findUnique(
+        {
+          where: { id: createSacramentoDto.tipoSacramentoId },
+        },
+      );
+      if (!tipoSacramento) {
+        throw new NotFoundError('Type sacrament not found');
+      }
     }
 
     const result = await this.prismaService.$transaction([

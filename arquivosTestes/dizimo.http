@@ -1,0 +1,33 @@
+###
+GET http://localhost:3000/dizimos
+
+###
+GET http://localhost:3000/dizimos/4
+
+###
+POST  http://localhost:3000/dizimos
+Content-Type: application/json
+
+{
+    "meses": "223",
+    "valor": " sao 123",
+    "tipoPagamento": "ander@123",
+    "pessoaId": 1,
+    "responsavelId": 1
+
+}
+###
+PATCH   http://localhost:3000/dizimos/1
+Content-Type: application/json
+
+{
+    "meses": "223",
+    "valor": " sao 123",
+    "tipoPagamento": "ander@123",
+    "pessoaId": 1,
+    "responsavelId": 1
+    }
+###
+DELETE  http://localhost:3000/dizimos/8
+
+###

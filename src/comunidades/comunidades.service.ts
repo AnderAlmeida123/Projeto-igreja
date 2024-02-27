@@ -8,11 +8,13 @@ import { NotFoundError } from 'src/errors';
 export class ComunidadesService {
   constructor(private prismaService: PrismaService) {}
   async create(createComunidadeDto: CreateComunidadeDto) {
-    const pessoa = await this.prismaService.pessoa.findUnique({
-      where: { id: createComunidadeDto.responsavelId },
-    });
-    if (!pessoa) {
-      throw new NotFoundError('People not found');
+    if (createComunidadeDto.responsavelId) {
+      const pessoa = await this.prismaService.pessoa.findUnique({
+        where: { id: createComunidadeDto.responsavelId },
+      });
+      if (!pessoa) {
+        throw new NotFoundError('People not found');
+      }
     }
 
     const result = await this.prismaService.$transaction([

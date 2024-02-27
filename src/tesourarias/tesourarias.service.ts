@@ -8,18 +8,22 @@ import { NotFoundError } from 'src/errors';
 export class TesourariasService {
   constructor(private prismaService: PrismaService) {}
   async create(createTesourariaDto: CreateTesourariaDto) {
-    const comunidade = await this.prismaService.comunidade.findUnique({
-      where: { id: createTesourariaDto.comunidadeId },
-    });
-    if (!comunidade) {
-      throw new NotFoundError('Community not found');
+    if (createTesourariaDto.comunidadeId) {
+      const comunidade = await this.prismaService.comunidade.findUnique({
+        where: { id: createTesourariaDto.comunidadeId },
+      });
+      if (!comunidade) {
+        throw new NotFoundError('Community not found');
+      }
     }
 
-    const responsavel = await this.prismaService.pessoa.findUnique({
-      where: { id: createTesourariaDto.responsavelId },
-    });
-    if (!responsavel) {
-      throw new NotFoundError('People not found');
+    if (createTesourariaDto.responsavelId) {
+      const responsavel = await this.prismaService.pessoa.findUnique({
+        where: { id: createTesourariaDto.responsavelId },
+      });
+      if (!responsavel) {
+        throw new NotFoundError('People not found');
+      }
     }
 
     const result = await this.prismaService.$transaction([
@@ -43,7 +47,7 @@ export class TesourariasService {
 
   async findOne(id: number) {
     try {
-      await this.prismaService.tesouraria.findUniqueOrThrow({
+      return await this.prismaService.tesouraria.findUniqueOrThrow({
         where: { id },
       });
     } catch (error) {
@@ -57,7 +61,7 @@ export class TesourariasService {
 
   async update(id: number, updateTesourariaDto: UpdateTesourariaDto) {
     try {
-      await this.prismaService.tesouraria.update({
+      return await this.prismaService.tesouraria.update({
         where: { id },
         data: updateTesourariaDto,
       });
@@ -72,7 +76,7 @@ export class TesourariasService {
 
   async remove(id: number) {
     try {
-      await this.prismaService.tesouraria.delete({
+      return await this.prismaService.tesouraria.delete({
         where: { id },
       });
     } catch (error) {

@@ -9,11 +9,13 @@ export class ContatosService {
   constructor(private prismaService: PrismaService) {}
 
   async create(createContatoDto: CreateContatoDto) {
-    const pessoa = await this.prismaService.pessoa.findUnique({
-      where: { id: createContatoDto.pessoaId },
-    });
-    if (!pessoa) {
-      throw new NotFoundError('People not found');
+    if (createContatoDto.pessoaId) {
+      const pessoa = await this.prismaService.pessoa.findUnique({
+        where: { id: createContatoDto.pessoaId },
+      });
+      if (!pessoa) {
+        throw new NotFoundError('People not found');
+      }
     }
 
     const contato = await this.prismaService.$transaction([

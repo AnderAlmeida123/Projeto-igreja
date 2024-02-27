@@ -9,28 +9,34 @@ export class EstoquesService {
   constructor(private prismaService: PrismaService) {}
 
   async create(createEstoqueDto: CreateEstoqueDto) {
-    const setor = await this.prismaService.setor.findUnique({
-      where: { id: createEstoqueDto.setorId },
-    });
-    if (!setor) {
-      throw new NotFoundError('Sector not found');
+    if (createEstoqueDto.setorId) {
+      const setor = await this.prismaService.setor.findUnique({
+        where: { id: createEstoqueDto.setorId },
+      });
+      if (!setor) {
+        throw new NotFoundError('Sector not found');
+      }
     }
 
-    const responsavel = await this.prismaService.pessoa.findUnique({
-      where: { id: createEstoqueDto.responsavelId },
-    });
-    if (!responsavel) {
-      throw new NotFoundError('People not found');
+    if (createEstoqueDto.responsavelId) {
+      const responsavel = await this.prismaService.pessoa.findUnique({
+        where: { id: createEstoqueDto.responsavelId },
+      });
+      if (!responsavel) {
+        throw new NotFoundError('People not found');
+      }
     }
 
-    const comunidade = await this.prismaService.comunidade.findUnique({
-      where: { id: createEstoqueDto.comunidadeId },
-    });
-    if (!comunidade) {
-      throw new NotFoundError('Community not found');
+    if (createEstoqueDto.comunidadeId) {
+      const comunidade = await this.prismaService.comunidade.findUnique({
+        where: { id: createEstoqueDto.comunidadeId },
+      });
+      if (!comunidade) {
+        throw new NotFoundError('Community not found');
+      }
     }
 
-    const result = await this.prismaService.$transaction([
+    const create = await this.prismaService.$transaction([
       this.prismaService.estoque.create({
         data: {
           produto: createEstoqueDto.produto,
@@ -41,7 +47,7 @@ export class EstoquesService {
         },
       }),
     ]);
-    return result[0];
+    return create[0];
   }
 
   findAll() {

@@ -8,18 +8,22 @@ import { NotFoundError } from 'src/errors';
 export class SetorsService {
   constructor(private prismaService: PrismaService) {}
   async create(createSetorDto: CreateSetorDto) {
-    const pessoa = await this.prismaService.pessoa.findUnique({
-      where: { id: createSetorDto.responsavelId },
-    });
-    if (!pessoa) {
-      throw new NotFoundError('People not found');
+    if (createSetorDto.responsavelId) {
+      const pessoa = await this.prismaService.pessoa.findUnique({
+        where: { id: createSetorDto.responsavelId },
+      });
+      if (!pessoa) {
+        throw new NotFoundError('People not found');
+      }
     }
 
-    const comunidade = await this.prismaService.comunidade.findUnique({
-      where: { id: createSetorDto.comunidadeId },
-    });
-    if (!comunidade) {
-      throw new NotFoundError('Community not found');
+    if (createSetorDto.comunidadeId) {
+      const comunidade = await this.prismaService.comunidade.findUnique({
+        where: { id: createSetorDto.comunidadeId },
+      });
+      if (!comunidade) {
+        throw new NotFoundError('Community not found');
+      }
     }
 
     const result = await this.prismaService.$transaction([

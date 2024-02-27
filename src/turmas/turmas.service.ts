@@ -9,18 +9,22 @@ export class TurmasService {
   constructor(private prismaService: PrismaService) {}
 
   async create(createTurmaDto: CreateTurmaDto) {
-    const professor = await this.prismaService.pessoa.findUnique({
-      where: { id: createTurmaDto.professorId },
-    });
-    if (!professor) {
-      throw new NotFoundError('Teacher not found');
+    if (createTurmaDto.professorId) {
+      const professor = await this.prismaService.pessoa.findUnique({
+        where: { id: createTurmaDto.professorId },
+      });
+      if (!professor) {
+        throw new NotFoundError('Teacher not found');
+      }
     }
 
-    const setor = await this.prismaService.setor.findUnique({
-      where: { id: createTurmaDto.setorId },
-    });
-    if (!setor) {
-      throw new NotFoundError('Setor not found');
+    if (createTurmaDto.setorId) {
+      const setor = await this.prismaService.setor.findUnique({
+        where: { id: createTurmaDto.setorId },
+      });
+      if (!setor) {
+        throw new NotFoundError('Setor not found');
+      }
     }
 
     const result = await this.prismaService.$transaction([

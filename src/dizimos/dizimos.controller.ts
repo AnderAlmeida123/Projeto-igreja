@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpCode,
+} from '@nestjs/common';
 import { DizimosService } from './dizimos.service';
 import { CreateDizimoDto } from './dto/create-dizimo.dto';
 import { UpdateDizimoDto } from './dto/update-dizimo.dto';
@@ -27,6 +36,7 @@ export class DizimosController {
     return this.dizimosService.update(+id, updateDizimoDto);
   }
 
+  @HttpCode(204)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.dizimosService.remove(+id);
